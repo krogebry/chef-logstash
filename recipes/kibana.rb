@@ -6,6 +6,12 @@ kibana_home = node['logstash']['kibana']['home']
 kibana_log_dir = node['logstash']['kibana']['log_dir']
 kibana_pid_dir = node['logstash']['kibana']['pid_dir']
 
+  user "kibana" do
+    supports :manage_home => true
+    home "/home/kibana"
+    shell "/bin/bash"
+  end
+
 include_recipe "rbenv::default"
 include_recipe "rbenv::ruby_build"
 
@@ -20,7 +26,8 @@ end
 if Chef::Config[:solo]
   es_server_ip = node['logstash']['elasticsearch_ip']
 else
-  es_server_results = search(:node, "roles:#{node['logstash']['elasticsearch_role']} AND chef_environment:#{node.chef_environment}")
+  #es_server_results = search(:node, "roles:#{node['logstash']['elasticsearch_role']} AND chef_environment:#{node.chef_environment}")
+  es_server_results = search(:node, node["logstash"]["elasticsearch_query"])
   unless es_server_results.empty?
     es_server_ip = es_server_results[0]['ipaddress']
   else
@@ -78,6 +85,7 @@ when "ruby"
   end
   
   template '/home/kibana/.bash_profile' do # let bash handle our env vars
+  #template '/home/kibana/.bashrc' do # let bash handle our env vars
     source 'kibana-bash_profile.erb'
     owner 'kibana'
     group 'kibana'

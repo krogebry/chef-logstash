@@ -14,7 +14,7 @@
 KIBANA_HOME=<%= @kibana_home %>
 USER=<%= @user %>
 
-KIBANA_CMD="cd $KIBANA_HOME && bundle exec ruby kibana-daemon.rb $1"
+KIBANA_CMD="cd $KIBANA_HOME && source /home/kibana/.bash_profile && bundle exec ruby kibana-daemon.rb $1"
 
 case "$1" in
 start)
