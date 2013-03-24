@@ -9,7 +9,7 @@ default['logstash']['create_account'] = true
 # roles/flags for various search/discovery
 default['logstash']['graphite_role'] = 'graphite_server'
 default['logstash']['graphite_query'] = "roles:#{node['logstash']['graphite_role']} AND chef_environment:#{node.chef_environment}"
-default['logstash']['elasticsearch_role'] = 'logstash_elasticsearch'
+default['logstash']['elasticsearch_role'] = 'logstash_elasticsearch_master'
 default['logstash']['elasticsearch_query'] = "roles:#{node['logstash']['elasticsearch_role']} AND chef_environment:#{node.chef_environment} AND tags:#{node.tags[0]}"
 default['logstash']['elasticsearch_cluster'] = 'logstash'
 default['logstash']['elasticsearch_ip'] = ''
